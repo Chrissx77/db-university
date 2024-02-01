@@ -90,7 +90,7 @@ WHERE degrees.id = courses.degree_id
 
 -- 6. Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
 -- ```sql
-SELECT teachers.name as name_teach, teachers.surname as surname_teach, degrees.name as corso_laurea
+SELECT teachers.*, degrees.name as corso_laurea
 FROM teachers, course_teacher,courses, degrees
 WHERE teachers.id = course_teacher.teacher_id 
 AND course_teacher.course_id = courses.id
