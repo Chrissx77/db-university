@@ -79,12 +79,23 @@ ORDER BY students.surname;
 
 -- 5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti
 -- ```sql
-
+SELECT degrees.name, courses.name as name_corso, teachers.name as name_teach, teachers.surname as surname_teach
+FROM degrees, courses, course_teacher,teachers
+WHERE degrees.id = courses.degree_id
+    AND courses.id = course_teacher.course_id
+    AND teachers.id = course_teacher.teacher_id
+    ORDER BY degrees.name;
 
 -- ```
 
 -- 6. Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
 -- ```sql
+SELECT teachers.name as name_teach, teachers.surname as surname_teach, degrees.name as corso_laurea
+FROM teachers, course_teacher,courses, degrees
+WHERE teachers.id = course_teacher.teacher_id 
+AND course_teacher.course_id = courses.id
+AND courses.degree_id = degrees.id
+AND degrees.name LIKE 'Corso di Laurea in Matematica';
 
 -- ```
 
@@ -92,5 +103,10 @@ ORDER BY students.surname;
 -- ##### Bonus
 -- 7. Selezionare per ogni studente il numero di tentativi sostenuti per ogni esame, stampando anche il voto massimo. Successivamente, filtrare i tentativi con voto minimo 18.
 -- ```sql
+SELECT students.id, COUNT(*) as num_esami_sostenuti, MAX(vote) as voto_massimo
+FROM students, exam_student
+WHERE students.id = exam_student.exam_id
+AND exam_student.vote >= 18
+GROUP BY students.id;
 
 -- ```
