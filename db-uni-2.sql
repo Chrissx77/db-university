@@ -90,12 +90,25 @@ WHERE degrees.id = courses.degree_id
 
 -- 6. Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
 -- ```sql
+-- SELECT teachers.*, degrees.name as corso_laurea
+-- FROM teachers, course_teacher,courses, degrees
+-- WHERE teachers.id = course_teacher.teacher_id 
+-- AND course_teacher.course_id = courses.id
+-- AND courses.degree_id = degrees.id
+-- AND degrees.name LIKE 'Corso di Laurea in Matematica';
+
+-- SELECT teachers.*, degrees.name as corso_laurea
+-- FROM teachers JOIN course_teacher ON teachers.id = course_teacher.teacher_id  JOIN courses ON courses.id = course_teacher.course_id JOIN degrees ON degrees.id = courses.degree_id
+-- WHERE degrees.name LIKE 'Corso di Laurea in Matematica';
+
+-- SELECT teachers.name as teach_name, teachers.surname as teach_surname, course_teacher.course_id , courses.degree_id 
+-- FROM teachers JOIN course_teacher ON teachers.id = course_teacher.teacher_id JOIN courses ON courses.id = course_teacher.course_id 
+-- ORDER BY 4;
+
 SELECT teachers.*, degrees.name as corso_laurea
-FROM teachers, course_teacher,courses, degrees
-WHERE teachers.id = course_teacher.teacher_id 
-AND course_teacher.course_id = courses.id
-AND courses.degree_id = degrees.id
-AND degrees.name LIKE 'Corso di Laurea in Matematica';
+FROM teachers JOIN course_teacher ON teachers.id = course_teacher.teacher_id  JOIN courses ON courses.id = course_teacher.course_id JOIN degrees ON degrees.id = courses.degree_id JOIN departments ON departments.id = degrees.department_id
+WHERE degrees.name NOT IN('Corso di Laurea in Informatica')
+AND degrees.name LIKE '%matematica%';
 
 -- ```
 
